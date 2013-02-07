@@ -1,17 +1,25 @@
 package io.ous.justconfig.values;
 
-import io.ous.justconfig.ConfigurationSource;
-import io.ous.justconfig.Primitives;
-import io.ous.justconfig.Primitives.PrimitiveType;
+import io.ous.justconfig.sources.ConfigurationSource;
+import io.ous.justconfig.util.Primitives;
+import io.ous.justconfig.util.Primitives.PrimitiveType;
 
-public class PrimitiveValueReaderService implements ValueReaderService<Object> {
+/**
+ * This ValueReader will read any primitive type or a String
+ * @author Asafh
+ *
+ */
+public class PrimitiveValueReaderService implements ValueReaderService {
 
 	public boolean readable(Class<?> type) {
-		return Primitives.getType(type)!= null; //Wrapped or unwrapped primitive
+		return String.class.equals(type) || Primitives.getType(type)!= null; //Wrapped or unwrapped primitive
 	}
 
 	public Object readValue(ClassLoader loader,
-			ConfigurationSource config, String name, Class<? extends Object> type) {
+			ConfigurationSource config, String name, Class<?> type) {
+		if(String.class.equals(type)) {
+			return config.getString(name);
+		}
 		PrimitiveType pType = Primitives.getType(type);
 		switch(pType) {
 		case INTEGER:

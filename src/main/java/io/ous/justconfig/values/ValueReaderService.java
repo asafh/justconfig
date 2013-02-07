@@ -1,10 +1,10 @@
 package io.ous.justconfig.values;
 
-import io.ous.justconfig.ConfigurationSource;
+import io.ous.justconfig.sources.ConfigurationSource;
 
-public interface ValueReaderService<T> {
+public interface ValueReaderService{
 	public boolean readable(Class<?> type);
-	public T readValue(ClassLoader loader, ConfigurationSource config,
-						String name, Class<? extends T> type)
+	public Object readValue(ClassLoader loader, ConfigurationSource config,
+						String name, Class<?> type)
 							throws IllegalArgumentException;
 }

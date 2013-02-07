@@ -1,24 +1,41 @@
 package io.ous;
 
+import io.ous.justconfig.DefaultJustConfigToolkit;
+import io.ous.justconfig.proxy.ConfigurationAnnotationProxy;
+import io.ous.justconfig.sources.SystemPropertiesConfigurationSource;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Categories.ExcludeCategory;
+
 import static org.junit.Assert.*;
 
 public class AdhocTest {
-	private static @interface Anot {}
-	public Class bla;
-	public Integer blat;
+	private static @interface Anot {
+		int primError();
+		int primDef() default 5;
+		String nullString();
+		String defString() default "def";
+		String abcdef();
+		int testInteger();
+	}
 	@Test
-	public void test() throws NoSuchFieldException, SecurityException {
-		assertTrue(Anot.class.isInterface());
-		assertEquals(Character.TYPE.getName(), "char");
-		assertEquals(Character.TYPE.getSimpleName(), "char");
-		assertEquals(Character.class.getSimpleName(), "Character");
-		Class<?> type = getClass().getField("bla").getType();
-		System.out.println(type);
-		System.out.println(Class.class.isAssignableFrom(type));
-		Class<?> prim = getClass().getField("blat").getType();
-		System.out.println(prim);
-		System.out.println(Class.class.isAssignableFrom(prim));
+	public void test() {
+		String value = "MY VALUE";
+		System.setProperty("abcdef", value);
+		System.setProperty("testInteger", "5");
+		
+		Anot conf = DefaultJustConfigToolkit.INSTANCE.proxy(new ConfigurationAnnotationProxy<Anot>(new SystemPropertiesConfigurationSource(), Anot.class, Thread.currentThread().getContextClassLoader()));
+		assertEquals(conf.primDef(), 5);
+		assertNull(conf.nullString());
+		assertEquals(conf.defString(), "def");
+		assertEquals(conf.abcdef(), value);
+		assertEquals(conf.testInteger(), 5);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNoPrimitive() {
+		Anot conf = DefaultJustConfigToolkit.INSTANCE.proxy(new ConfigurationAnnotationProxy<Anot>(new SystemPropertiesConfigurationSource(), Anot.class, Thread.currentThread().getContextClassLoader()));
+		conf.primError();
 	}
 }

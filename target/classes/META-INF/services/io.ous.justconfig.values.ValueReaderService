@@ -1,0 +1,3 @@
+io.ous.justconfig.values.PrimitiveValueReaderService
+io.ous.justconfig.values.ClassValueReaderSerivce
+io.ous.justconfig.values.EnumValueReaderService

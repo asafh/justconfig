@@ -6,11 +6,17 @@
   <name>JustConfig</name>
   <description>Simple library to ease configurations in Java</description>
   <dependencies>
-	  <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>4.11</version>
-	      <scope>test</scope>
-	    </dependency>
+	<dependency>
+	   <groupId>junit</groupId>
+	   <artifactId>junit</artifactId>
+	   <version>4.11</version>
+	   <scope>test</scope>
+	</dependency>
+	<dependency> <!-- This dependency is optional and is used in ApacheCommonsConfigurationSource when a user instantiates such an object (must be explicitly defined in using project)-->
+	   <groupId>commons-configuration</groupId>
+	   <artifactId>commons-configuration</artifactId>
+	   <version>1.9</version>
+	   <scope>compile</scope>
+	</dependency>
   </dependencies>
 </project>
