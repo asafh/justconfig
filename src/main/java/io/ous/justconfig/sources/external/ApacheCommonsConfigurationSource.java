@@ -1,7 +1,5 @@
 package io.ous.justconfig.sources.external;
 
-import java.util.Objects;
-
 import org.apache.commons.configuration.Configuration;
 
 import io.ous.justconfig.sources.ConfigurationSource;
@@ -10,7 +8,9 @@ public class ApacheCommonsConfigurationSource implements ConfigurationSource {
 	private final Configuration config;
 
 	public ApacheCommonsConfigurationSource(Configuration config) {
-		Objects.requireNonNull(config);
+		if(config == null) {
+			throw new NullPointerException("config cannot be null");
+		}
 		this.config = config;
 		
 	}

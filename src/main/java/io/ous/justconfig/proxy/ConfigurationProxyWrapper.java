@@ -3,13 +3,14 @@ package io.ous.justconfig.proxy;
 import io.ous.justconfig.sources.ConfigurationSource;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 public class ConfigurationProxyWrapper<T> extends AbstractConfigurationProxyHandler<T> {
 	private final ConfigurationProxyHandler<T> wrapped;
 	
 	public ConfigurationProxyWrapper(ConfigurationProxyHandler<T> wrapped) {
-		Objects.requireNonNull(wrapped);
+		if(wrapped == null) {
+			throw new NullPointerException("Wrapped handler cannot be null");
+		}
 		this.wrapped = wrapped;
 	}
 	public Object invoke(Object proxy, Method method, Object[] args)
