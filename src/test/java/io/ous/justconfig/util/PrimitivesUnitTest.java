@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PrimitivesUnitTest {
-	static final Object[][] TYPES = {
+	public static final Object[][] TYPES = {
 			{PrimitiveType.INTEGER, Integer.TYPE, Integer.class},
 			{PrimitiveType.FLOAT, Float.TYPE, Float.class},
 			{PrimitiveType.LONG, Long.TYPE, Long.class},

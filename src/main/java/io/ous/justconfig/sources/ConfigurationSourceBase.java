@@ -1,6 +1,7 @@
 package io.ous.justconfig.sources;
 
-import javax.xml.bind.DatatypeConverter;
+import java.math.BigInteger;
+
 
 public abstract class ConfigurationSourceBase implements ConfigurationSource {
 
@@ -11,7 +12,7 @@ public abstract class ConfigurationSourceBase implements ConfigurationSource {
 	 */
 	public Byte getByte(String name) {
 		String val = getString(name);
-		return val == null ? null : DatatypeConverter.parseHexBinary(val)[0];
+		return val == null ? null : new BigInteger(val, 16).byteValue();// Byte.parseByte(val, 16);
 	}
 
 	/**

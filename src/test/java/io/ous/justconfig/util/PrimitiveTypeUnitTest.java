@@ -25,9 +25,9 @@ public class PrimitiveTypeUnitTest {
 		return Arrays.asList(PrimitivesUnitTest.TYPES);
 	}
 	
-	public PrimitiveTypeUnitTest(PrimitiveType type, Class<?> primtive, Class<?> wrapping) {
+	public PrimitiveTypeUnitTest(PrimitiveType type, Class<?> primitive, Class<?> wrapping) {
 		pType = type;
-		this._primitive = primtive;
+		this._primitive = primitive;
 		this.wrapping = wrapping;
 	}
 	

@@ -1,10 +1,14 @@
 package io.ous.justconfig.sources;
 
-import java.util.Enumeration;
-import java.util.ResourceBundle;
+import io.ous.TestHelper;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Talk about a verbose name...
@@ -12,30 +16,39 @@ import org.junit.Test;
  *
  */
 public abstract class AbstractStringBackedConfigurationSourceUnitTest {
-	private ResourceBundle bundle;
-
-	protected abstract ConfigurationSource getSource();
-	protected abstract void set(String name, String value);
-
+	private ConfigurationSource config;
+	private Map<String,String> values;
+	
+	public AbstractStringBackedConfigurationSourceUnitTest() {
+		
+	}
+	protected abstract ConfigurationSource create(Map<String,String> values);
+	
+	public ConfigurationSource getConfigurationSource() {
+		return config;
+	}
+	
 	@Before
 	public void createValues() {
-		bundle = ResourceBundle.getBundle(AbstractStringBackedConfigurationSourceUnitTest.class.getCanonicalName());
-		Enumeration<String> keys = bundle.getKeys();
-		while(keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			set(key,bundle.getString(key));
+		values = new HashMap<String, String>();
+		Random random = new Random();
+		for(int i =0; i < 100; ++i) {
+			values.put(TestHelper.getBasicValue(random, String.class), TestHelper.getBasicValue(random, String.class));
 		}
+		values.put("xxwy.xvcd", "adg adg adg %33444");
+		
+		config = create(values);
 	}
 	
 	@Test
 	public void test() {
-		ConfigurationSource config = getSource();
-		Enumeration<String> keys = bundle.getKeys();
-		while(keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			set(key,bundle.getString(key));
+		for(Map.Entry<String, String> entry : values.entrySet()) {
+			assertEquals("Inequalitiy for entry set "+entry,entry.getValue(), config.getString(entry.getKey()));
 		}
 	}
 	
-	
+	@Test
+	public void testNulls() {
+		assertNull(config.getString("I_DONT_EXIST"));
+	}
 }

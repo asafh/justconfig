@@ -7,7 +7,7 @@ import io.ous.justconfig.sources.ConfigurationSource;
  * @author Asafh
  *
  */
-public class ClassValueReaderSerivce implements ValueReaderService {
+public class ClassValueReaderService implements ValueReaderService {
 	public boolean readable(Class<?> type) {
 		return Class.class.isAssignableFrom(type);
 	}

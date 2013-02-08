@@ -9,7 +9,7 @@ import io.ous.justconfig.util.Primitives.PrimitiveType;
  * @author Asafh
  *
  */
-public class PrimitiveValueReaderService implements ValueReaderService {
+public class BasicValueReaderService implements ValueReaderService {
 
 	public boolean readable(Class<?> type) {
 		return String.class.equals(type) || Primitives.getType(type)!= null; //Wrapped or unwrapped primitive
