@@ -75,15 +75,6 @@ public class Primitives {
 	}
 	
 	/**
-	 * Returns true iff the given class represents a primitive
-	 * @param clz
-	 * @return
-	 */
-	public static boolean isPrimitive(Class<?> clz) {
-		return INSTANCE.primitiveToType.containsKey(clz);
-	}
-	
-	/**
 	 * Returns the PrimitiveType corresponding to the given primitive or wrapped type (e.g. Integer.TYPE or Integer.class will return INTEGER) <br/>
 	 * Will return null if the given type is not a wrapped or unwrapped primitive type.
 	 * @param primitiveOrWrapping

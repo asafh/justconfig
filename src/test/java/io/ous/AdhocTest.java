@@ -1,41 +1,36 @@
 package io.ous;
 
-import io.ous.justconfig.DefaultJustConfigToolkit;
-import io.ous.justconfig.proxy.ConfigurationAnnotationProxy;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import io.ous.justconfig.ConfigurationProxyHandlerBuilder;
 import io.ous.justconfig.sources.SystemPropertiesConfigurationSource;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.experimental.categories.Categories.ExcludeCategory;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class AdhocTest {
-	private static @interface Anot {
-		int primError();
-		int primDef() default 5;
-		String nullString();
-		String defString() default "def";
-		String abcdef();
-		int testInteger();
-	}
-	@Test
-	public void test() {
-		String value = "MY VALUE";
-		System.setProperty("abcdef", value);
-		System.setProperty("testInteger", "5");
-		
-		Anot conf = DefaultJustConfigToolkit.INSTANCE.proxy(new ConfigurationAnnotationProxy<Anot>(new SystemPropertiesConfigurationSource(), Anot.class, Thread.currentThread().getContextClassLoader()));
-		assertEquals(conf.primDef(), 5);
-		assertNull(conf.nullString());
-		assertEquals(conf.defString(), "def");
-		assertEquals(conf.abcdef(), value);
-		assertEquals(conf.testInteger(), 5);
-	}
 	
-	@Test(expected=NullPointerException.class)
-	public void testNoPrimitive() {
-		Anot conf = DefaultJustConfigToolkit.INSTANCE.proxy(new ConfigurationAnnotationProxy<Anot>(new SystemPropertiesConfigurationSource(), Anot.class, Thread.currentThread().getContextClassLoader()));
-		conf.primError();
+	private static interface BeanSample {
+		public String getFish();
+	}
+	@Ignore
+	@Test
+	public void testBeans() throws NoSuchMethodException, SecurityException, IntrospectionException {
+		Method method = BeanSample.class.getMethod("getFish");
+		BeanInfo beanInfo = java.beans.Introspector.getBeanInfo(BeanSample.class);
+		for(PropertyDescriptor desc : beanInfo.getPropertyDescriptors()) {
+			System.out.println(desc.getName());			
+			System.out.println(desc.getDisplayName());
+			System.out.println(desc.getShortDescription());
+		}
+//		java.beans.MethodDescriptor methodDescriptor = new java.beans.MethodDescriptor(method);
+		
+		
 	}
 }

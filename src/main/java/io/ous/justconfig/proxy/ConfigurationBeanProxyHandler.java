@@ -1,6 +1,7 @@
 package io.ous.justconfig.proxy;
 
 import io.ous.justconfig.sources.ConfigurationSource;
+import io.ous.justconfig.values.ValueReaderService;
 
 import java.lang.reflect.Method;
 
@@ -10,13 +11,13 @@ import java.lang.reflect.Method;
  * @author Asafh
  * @param <T> the proxied interface type
  */
-public class ConfigurationBeanInterfaceProxy<T> extends ConfigurationProxyBase<T> {
+public class ConfigurationBeanProxyHandler<T> extends ConfigurationProxyHandlerBase<T> {
 	protected static final String GET_PREFIX = "get";
 	protected static final String IS_PREFIX = "is";
 	
-	public ConfigurationBeanInterfaceProxy(ConfigurationSource config,
+	public ConfigurationBeanProxyHandler(Iterable<ValueReaderService> readers, ConfigurationSource config,
 											Class<T> clz, ClassLoader loader) {
-		super(config, clz, loader);
+		super(readers, config, clz, loader);
 	}
 	
 	/**

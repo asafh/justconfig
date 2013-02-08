@@ -5,21 +5,21 @@ import io.ous.justconfig.sources.ConfigurationSource;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public interface ConfigurationProxy<T> extends InvocationHandler {
-
+public interface ConfigurationProxyHandler<T> extends InvocationHandler {
 	/**
-	 * Returns the ConfigurationSource for this proxy
+	 * Returns the ConfigurationSource that will be used to resolve values in the configuration specification
 	 * @return
 	 */
 	public ConfigurationSource getConfiguration();
 
 	/**
-	 * Returns the interface class that's being proxied
+	 * Returns the configuration specification class
 	 * @return
 	 */
-	public Class<T> getTargetInterface();
+	public Class<T> getSpecs();
+	
 	/**
-	 * Returns the ClassLoader used in the proxy
+	 * Returns the ClassLoader used by the handler when reading values (e.g. resolving classes)
 	 * @return
 	 */
 	public ClassLoader getClassLoader();
@@ -47,4 +47,11 @@ public interface ConfigurationProxy<T> extends InvocationHandler {
 	 * @param method
 	 */
 	public String getPropertyName(Method method);
+	
+	/**
+	 * Returns an instance of the target interface, calling it's methods will retrieve
+	 * configuration properties as described by the proxy implementation 
+	 * @return
+	 */
+	public T createProxy();
 }

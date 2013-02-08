@@ -5,10 +5,10 @@ import io.ous.justconfig.sources.ConfigurationSource;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-public class ConfigurationProxyWrapper<T> implements
-		ConfigurationProxy<T> {
-	private final ConfigurationProxy<T> wrapped;
-	public ConfigurationProxyWrapper(ConfigurationProxy<T> wrapped) {
+public class ConfigurationProxyWrapper<T> extends AbstractConfigurationProxyHandler<T> {
+	private final ConfigurationProxyHandler<T> wrapped;
+	
+	public ConfigurationProxyWrapper(ConfigurationProxyHandler<T> wrapped) {
 		Objects.requireNonNull(wrapped);
 		this.wrapped = wrapped;
 	}
@@ -33,11 +33,10 @@ public class ConfigurationProxyWrapper<T> implements
 	public String getPropertyName(Method method) {
 		return wrapped.getPropertyName(method);
 	}
-	public Class<T> getTargetInterface() {
-		return wrapped.getTargetInterface();
+	public Class<T> getSpecs() {
+		return wrapped.getSpecs();
 	}
 	public ClassLoader getClassLoader() {
 		return wrapped.getClassLoader();
 	}
-
 }
