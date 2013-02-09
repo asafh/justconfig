@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 public class ConfigurationBeanProxyHandler<T> extends ConfigurationProxyHandlerBase<T> {
 	protected static final String GET_PREFIX = "get";
 	protected static final String IS_PREFIX = "is";
+	protected static final String[] PREFIXES = {GET_PREFIX, IS_PREFIX};
 	
 	public ConfigurationBeanProxyHandler(Iterable<ValueReaderService> readers, ConfigurationSource config,
 											Class<T> clz, ClassLoader loader) {
@@ -27,12 +28,17 @@ public class ConfigurationBeanProxyHandler<T> extends ConfigurationProxyHandlerB
 	@Override
 	public String getPropertyName(Method method) {
 		String ret = super.getPropertyName(method);
-		
-		if(ret.startsWith(GET_PREFIX)) {
-			return ret.substring(GET_PREFIX.length());
-		}
-		else if(ret.startsWith(IS_PREFIX)) {
-			return ret.substring(IS_PREFIX.length());
+		for(String prefix : PREFIXES) {
+			int preLength = prefix.length();
+			if(ret.length() <= preLength) { //For the third check
+				continue;
+			}
+			if(ret.startsWith(prefix)) {
+				char firstChar = ret.charAt(preLength);
+				if(Character.isUpperCase(firstChar)) { //not gettysburgVila() only getTysburgVila
+					return Character.toLowerCase(firstChar) + ret.substring(preLength+1); //Plus one for the lowercased char
+				}
+			}
 		}
 		return ret;
 	}
