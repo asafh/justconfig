@@ -70,7 +70,7 @@ public class ConfigurationProxyHandlerBase<T> extends AbstractConfigurationProxy
 	protected Object readValue(String name, Class<?> type) {
 		for(ValueReaderService reader : readers) {
 			if(reader.readable(type)) {
-				return reader.readValue(loader, config, name, type);
+				return reader.readValue(getClassLoader(), config, name, type);
 			}
 		}
 		return null;

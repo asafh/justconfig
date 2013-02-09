@@ -26,7 +26,7 @@ public class ConfigurationBeanProxyHandler<T> extends ConfigurationProxyHandlerB
 	 */
 	@Override
 	public String getPropertyName(Method method) {
-		String ret = method.getName();
+		String ret = super.getPropertyName(method);
 		
 		if(ret.startsWith(GET_PREFIX)) {
 			return ret.substring(GET_PREFIX.length());
