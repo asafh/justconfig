@@ -2,12 +2,15 @@ package io.ous.justconfig.proxy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
 import io.ous.justconfig.ConfigurationProxyHandlerBuilder;
-import io.ous.justconfig.sources.SystemPropertiesConfigurationSource;
+import io.ous.justconfig.sources.ConfigurationSource;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 public class AnnotationSpecTest {	
 	private static final String DEF_STRING_VAL = "def";
@@ -26,10 +29,17 @@ public class AnnotationSpecTest {
 	private ConfigSpecs config;
 	@Before
 	public void createConfiguration() {
-		System.setProperty("sysPropStr", VAL_SYS_PROP_STR);
-		System.setProperty("sysPropInt", String.valueOf(VAL_SYS_PROP_INT));
+		ConfigurationSource configSource = mock(ConfigurationSource.class, new Answer<Object>() {
+			@Override
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				return null;
+			}
+		});
+		when(configSource.getString("sysPropStr")).thenReturn(VAL_SYS_PROP_STR);
+		when(configSource.getInteger("sysPropInt")).thenReturn(VAL_SYS_PROP_INT);
 		
-		config = ConfigurationProxyHandlerBuilder.newBuilder().configuration(new SystemPropertiesConfigurationSource()).build(ConfigSpecs.class).createProxy();
+		
+		config = ConfigurationProxyHandlerBuilder.newBuilder().configuration(configSource).build(ConfigSpecs.class).createProxy();
 	}
 	
 	@Test
