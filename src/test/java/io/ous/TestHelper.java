@@ -1,5 +1,6 @@
 package io.ous;
 
+import io.ous.justconfig.sources.ConfigurationSource;
 import io.ous.justconfig.util.Primitives;
 import io.ous.justconfig.util.Primitives.PrimitiveType;
 
@@ -44,6 +45,50 @@ public class TestHelper {
 				byte[] sBytes = new byte[2];
 				random.nextBytes(sBytes);
 				ret = ByteBuffer.wrap(sBytes).getShort();
+				break;
+			default: //Will never be default... just for the compiler
+			case VOID:
+				return null;
+			}
+		}
+		return (T) ret;
+	}
+	public static<T> T getBasicValue(ConfigurationSource config, Class<T> type) {
+		return getBasicValue(config, type, "x");
+	}
+	@SuppressWarnings("unchecked")
+	public static<T> T getBasicValue(ConfigurationSource config, Class<T> type, String name) {
+		Object ret;
+		if(String.class.equals(type)) {
+			ret = config.getString(name);
+		}
+		else {
+			PrimitiveType pType = Primitives.getType(type);
+			switch(pType) {
+			case INTEGER:
+				ret = config.getInteger(name);
+				break;
+			case LONG:
+				ret = config.getLong(name);
+				break;
+			case DOUBLE:
+				ret = config.getDouble(name);
+				break;
+			case FLOAT:
+				ret = config.getFloat(name);
+				break;
+			case BOOLEAN:
+				ret = config.getBoolean(name);
+				break;
+			case CHARACTER:
+				ret = config.getCharacter(name);
+				break;
+			case BYTE:
+				ret = config.getByte(name);
+				break;
+			case SHORT:
+				ret = config.getShort(name);
+				break;
 			default: //Will never be default... just for the compiler
 			case VOID:
 				return null;

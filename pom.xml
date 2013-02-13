@@ -18,6 +18,12 @@
 		<version>1.9.5</version>
 		<scope>test</scope>
 	</dependency>
+	<dependency>
+	    <groupId>com.google.guava</groupId>
+	    <artifactId>guava</artifactId>
+	    <version>13.0</version>
+	    <scope>test</scope>
+	</dependency>
 	<dependency> <!-- This dependency is optional and is used in ApacheCommonsConfigurationSource when a user instantiates such an object (must be explicitly defined in using project)-->
 	   <groupId>commons-configuration</groupId>
 	   <artifactId>commons-configuration</artifactId>

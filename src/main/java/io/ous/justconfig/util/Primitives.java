@@ -2,8 +2,10 @@ package io.ous.justconfig.util;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * A utility class for primitive types and their wrappings object types
@@ -65,8 +67,8 @@ public class Primitives {
 	private final Map<Class<?>,PrimitiveType> primitiveToType; 
 	private final Map<Class<?>,PrimitiveType> wrappingToType;
 	private Primitives() {
-		primitiveToType = new HashMap<Class<?>,PrimitiveType>();
-		wrappingToType = new HashMap<Class<?>,PrimitiveType>();
+		primitiveToType = new LinkedHashMap<Class<?>,PrimitiveType>();
+		wrappingToType = new LinkedHashMap<Class<?>,PrimitiveType>();
 		
 		for(PrimitiveType type : PrimitiveType.values()) {
 			primitiveToType.put(type.getPrimitive(), type);
@@ -122,13 +124,13 @@ public class Primitives {
 	 * @return
 	 */
 	public static Set<Class<?>> getPrimitives() {
-		return Collections.unmodifiableSet(INSTANCE.primitiveToType.keySet());
+		return new CopyOnWriteArraySet<Class<?>>(INSTANCE.primitiveToType.keySet());
 	}
 	/**
 	 * Returns the set of all wrapping classes
 	 * @return
 	 */
 	public static Set<Class<?>> getWrappings() {
-		return Collections.unmodifiableSet(INSTANCE.wrappingToType.keySet());
+		return new CopyOnWriteArraySet<Class<?>>(INSTANCE.wrappingToType.keySet());
 	}
 }
