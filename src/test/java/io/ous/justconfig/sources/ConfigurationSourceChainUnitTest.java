@@ -36,7 +36,6 @@ public class ConfigurationSourceChainUnitTest {
 		
 		return ret;
 	}
-//	private Object value;
 	private ConfigurationSourceChain config;
 	private Random random;
 	private final ConfigurationSourceMock[] mocks;
@@ -77,7 +76,7 @@ public class ConfigurationSourceChainUnitTest {
 	}
 	@Before
 	public void init() {
-		random = new Random(1);
+		random = TestHelper.getRandom();
 		
 		ConfigurationSource[] sources = new ConfigurationSource[mocks.length];
 		for(int i = 0 ; i < mocks.length; ++i) {

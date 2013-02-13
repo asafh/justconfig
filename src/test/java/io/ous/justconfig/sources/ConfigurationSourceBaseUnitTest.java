@@ -18,7 +18,7 @@ public class ConfigurationSourceBaseUnitTest {
 	}
 	@Before
 	public void init() {
-		random = new Random();
+		random = TestHelper.getRandom();
 		config = new ConfigurationSourceBase() {
 			@Override
 			public String getString(String name) {

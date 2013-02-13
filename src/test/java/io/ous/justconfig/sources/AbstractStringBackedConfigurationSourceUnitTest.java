@@ -31,7 +31,7 @@ public abstract class AbstractStringBackedConfigurationSourceUnitTest {
 	@Before
 	public void createValues() {
 		values = new HashMap<String, String>();
-		Random random = new Random();
+		Random random = TestHelper.getRandom();
 		for(int i =0; i < 100; ++i) {
 			values.put(TestHelper.getBasicValue(random, String.class), TestHelper.getBasicValue(random, String.class));
 		}

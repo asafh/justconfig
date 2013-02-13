@@ -9,6 +9,9 @@ import java.nio.ByteBuffer;
 import java.util.Random;
 
 public class TestHelper {
+	public static Random getRandom() {
+		return new Random(0);
+	}
 	@SuppressWarnings("unchecked")
 	public static<T> T getBasicValue(Random random, Class<T> type) {
 		Object ret;
