@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Justconfig by asafh</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Justconfig</h1>
+        <p>The Justconfig library provides easy access to configuration properties using interface proxy instances</p>
+
+        <p class="view"><a href="https://github.com/asafh/justconfig">View the Project on GitHub <small>asafh/justconfig</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/asafh/justconfig/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/asafh/justconfig/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/asafh/justconfig">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>The Justconfig library</h1>
+
+<p>The Justconfig library provides easy access to configuration properties. By simply specifying an interface describing your configuration values you can access those values without a hassle, independent of their source.<br>
+Justconfig has no dependencies.
+Check out the examples!</p>
+
+<h2>Simple Example</h2>
+
+<p>This example showcases a simple usage, leveraging annotation interfaces' ability to specify default values with method declaration</p>
+
+<pre><code>#!java
+public class Simple  {  
+    private static @interface ConfigSpecs {
+        int poolSize() default 16;
+        String threadGroupName() default "myexecs";
+    }
+    private static final ConfigSpecs CONFIG = ConfigurationProxyBuilder.newBuilder(new SystemPropertiesConfigurationSource())
+                                                .build(ConfigSpecs.class);
+
+
+    public static void main( String[] args ) throws InstantiationException, IllegalAccessException{
+        System.setProperty("threadGroupName", "configuredValue");
+        assertEquals(16, CONFIG.poolSize());
+        assertEquals("configuredValue", CONFIG.threadGroupName());
+    }
+
+    private static void assertEquals(Object one, Object two) {
+        if(one != two &amp;&amp; !one.equals(two)) {
+            throw new IllegalArgumentException(one+" != "+two);
+        }
+    }
+}
+</code></pre>
+
+<h2>More information</h2>
+
+<p>There are a few, very simple, core concepts in Justconfig:  </p>
+
+<ul>
+<li>Configuration Sources</li>
+<li>Configuration Spec</li>
+<li>Value Reader Service</li>
+<li>Strategies
+
+<ol>
+<li>DefaultValueStrategy - Resolves a default value for a property accessor</li>
+<li>PropertyNameStrategy - Resolves the proprety name for a property accessor</li>
+<li>PropertyTypeStrategy - Resolves the property type for a property accessor</li>
+<li>ValueReaderResolverStrategy - Resolves the ValueReaderService for a type</li>
+</ol>
+</li>
+</ul><h3>Configuration Sources</h3>
+
+<p>A Configuration source retrieves simple values (Strings or primitives) for a String configuration property name. A simpler subset of <a href="http://commons.apache.org/configuration/">Apache Configuration</a> API's <a href="http://commons.apache.org/configuration/apidocs/org/apache/commons/configuration/Configuration.html">Configuration</a> interface.<br>
+Justconfig comes out of the box with these configuration sources:  </p>
+
+<ul>
+<li>System Properties<br>
+</li>
+<li>java.util.Properties<br>
+</li>
+<li>Apache Configuration (optional dependency)</li>
+</ul><p>Delegation of configuration sources can be achieved with the ConfigurationSourceChain class.</p>
+
+<p>New Configuration sources can be easily added by implementing the ConfigurationSource interface or extending the ConfigurationSourceBase class which helps with String backed configuration sources.</p>
+
+<h3>Configuration Spec</h3>
+
+<p>Configuration spec is your definition of what the configuration holds, defined by an interface or an annotation such as the following:</p>
+
+<pre><code>#!java
+public @interface ConfigSpecs {
+    int poolSize() default 16;
+    String threadGroupName();
+}
+public interface ConfigSpecs2 {
+    Boolean poolSize();
+    String threadGroupName();
+}
+</code></pre>
+
+<p>Justconfig will create a proxy instance of the interface for you to use, working just like how you think it will.  </p>
+
+<p>If you're wondering why pick or not pick annotations over interfaces, these are the key differences:  </p>
+
+<ul>
+<li>Annotations let you specify default values in an convenient way<br>
+</li>
+<li>Annotations' methods' return types are limited to Strings, Enums, Classes and (not boxed) primitives. This also means all primitive values must either be explicitly set (in the configuration source) or a default value must be given (In the Configuration Spec) or a NullPointerException will be thrown on access to indicate the missing value<br>
+</li>
+<li>Annotaions unlike interface can't extends other annotations/interfaces.</li>
+</ul><h3>Value Reader Services</h3>
+
+<p>While the return types for methods in annotations are from a constant set, interfaces can have other return values.<br>
+This is where Value Reader Services come in to play, an implementation accepts certain types that it can obtain from a configuration, and does so when such a value is requested.</p>
+
+<p>Look at EnumValueReaderService for a simple example:</p>
+
+<pre><code>#!java
+public class EnumValueReaderService implements ValueReaderService {
+
+    /**
+     * return true iff the type is an enum.
+     */
+    public boolean readable(Class&lt;?&gt; type) {
+        return Enum.class.isAssignableFrom(type);
+    }
+
+    /**
+     * Reads an enum constant using the enum's valueOf method
+     */
+    @SuppressWarnings({ "unchecked" })
+    public Enum readValue(ClassLoader loader, ConfigurationSource config,
+            String name, Class&lt;?&gt; type)
+            throws IllegalArgumentException {
+        String enumName = config.getString(name);
+        if(enumName == null) {
+            return null;
+        }
+        Class&lt;? extends Enum&gt; eClass = type.asSubclass(Enum.class);
+        return Enum.valueOf(eClass, enumName);
+    }
+}
+</code></pre>
+
+<p>Justconfig by default looks for ValueReaderServices using Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>, allowing you to easily implement value readers for more types or plug in libraries that do.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/asafh">asafh</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-38567300-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
