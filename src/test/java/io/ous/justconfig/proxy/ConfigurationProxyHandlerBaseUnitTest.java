@@ -28,54 +28,54 @@ public class ConfigurationProxyHandlerBaseUnitTest {
 	
 	private ArrayList<ValueReaderService> readers;
 	private ConfigurationSource config;
-	private ConfigurationProxyHandlerBase<ConfigSpecs> object;
+	private ConfigurationProxyHandlerBase<ConfigSpecs> proxyHandler;
 
 	@Before
 	public void init() {
 		readers = new ArrayList<ValueReaderService>();
 		config = mock(ConfigurationSource.class);
-		object = new ConfigurationProxyHandlerBase<ConfigSpecs>(readers,config, ConfigSpecs.class);
+		proxyHandler = new ConfigurationProxyHandlerBase<ConfigSpecs>(readers,config, ConfigSpecs.class);
 	}
 	
 	@Test
 	public void testDefaultValue() throws SecurityException, NoSuchMethodException {
-		Object value = object.defaultValue(getMethod("primDef"));
+		Object value = proxyHandler.defaultValue(getMethod("primDef"));
 		assertEquals(DEF_INT_VAL, value);
 		
-		value = object.defaultValue(getMethod("defString"));
+		value = proxyHandler.defaultValue(getMethod("defString"));
 		assertEquals(DEF_STRING_VAL, value);
 		
-		value = object.defaultValue(getMethod("sysPropStr"));
+		value = proxyHandler.defaultValue(getMethod("sysPropStr"));
 		assertNull(value);
 		
-		value = object.defaultValue(getMethod("sysPropInt"));
+		value = proxyHandler.defaultValue(getMethod("sysPropInt"));
 		assertNull(value);
 	}
 	
 	@Test
 	public void testGetClassLoader() {
-		assertEquals(Thread.currentThread().getContextClassLoader(), object.getClassLoader());
+		assertEquals(Thread.currentThread().getContextClassLoader(), proxyHandler.getClassLoader());
 	}
 	@Test
 	public void testGetConfiguration() {
-		assertEquals(config, object.getConfiguration());
+		assertEquals(config, proxyHandler.getConfiguration());
 	}
 	@Test
 	public void testGetSpecs() {
-		assertEquals(ConfigSpecs.class, object.getSpecs());
+		assertEquals(ConfigSpecs.class, proxyHandler.getSpecs());
 	}
 	
 	
 	@Test
 	public void testGetPropertyName() {
 		for(Method method : ConfigSpecs.class.getMethods()) {
-			assertEquals("Name not equal for method "+method.getName(),method.getName(), object.getPropertyName(method));
+			assertEquals("Name not equal for method "+method.getName(),method.getName(), proxyHandler.getPropertyName(method));
 		}
 	}
 	@Test
 	public void testGetPropertyType() {
 		for(Method method : ConfigSpecs.class.getMethods()) {
-			assertEquals("Type not equal for method "+method.getName(),method.getReturnType(), object.getPropertyType(method));
+			assertEquals("Type not equal for method "+method.getName(),method.getReturnType(), proxyHandler.getPropertyType(method));
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class ConfigurationProxyHandlerBaseUnitTest {
 		ValueReaderService reader = mock(ValueReaderService.class);
 		when(reader.readable(any(Class.class))).thenReturn(true);
 		readers.add(reader );
-		ConfigSpecs configSpecs = object.createProxy();
+		ConfigSpecs configSpecs = proxyHandler.createProxy();
 		configSpecs.sysPropStr();
 		verify(reader).readable(String.class);
 	}

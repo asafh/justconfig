@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import io.ous.justconfig.ConfigurationProxyHandlerBuilder;
 import io.ous.justconfig.sources.ConfigurationSource;
+import io.ous.justconfig.util.SimpleMock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,17 +30,11 @@ public class AnnotationSpecTest {
 	private ConfigSpecs config;
 	@Before
 	public void createConfiguration() {
-		ConfigurationSource configSource = mock(ConfigurationSource.class, new Answer<Object>() {
-			@Override
-			public Object answer(InvocationOnMock invocation) throws Throwable {
-				return null;
-			}
-		});
+		ConfigurationSource configSource = new SimpleMock<ConfigurationSource>(ConfigurationSource.class).always(null).getMock();
 		when(configSource.getString("sysPropStr")).thenReturn(VAL_SYS_PROP_STR);
 		when(configSource.getInteger("sysPropInt")).thenReturn(VAL_SYS_PROP_INT);
 		
-		
-		config = ConfigurationProxyHandlerBuilder.newBuilder().configuration(configSource).build(ConfigSpecs.class).createProxy();
+		config = ConfigurationProxyHandlerBuilder.newBuilder().configuration(configSource).buildProxy(ConfigSpecs.class);
 	}
 	
 	@Test

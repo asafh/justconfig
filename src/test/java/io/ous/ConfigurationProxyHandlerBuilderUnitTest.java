@@ -43,9 +43,9 @@ public class ConfigurationProxyHandlerBuilderUnitTest {
 		when(service.readValue(any(ClassLoader.class), any(ConfigurationSource.class), anyString(), any(Class.class))).thenReturn(uniqueObject);
 		services.add(service);
 		
-		ConfigurationProxyHandler<Specs> ret = builder.readers(services)
-				.build(Specs.class);
-		assertEquals(uniqueObject, ret.createProxy().getObject());
+		Specs ret = builder.readers(services)
+				.buildProxy(Specs.class);
+		assertEquals(uniqueObject, ret.getObject());
 	}
 	
 	@Test

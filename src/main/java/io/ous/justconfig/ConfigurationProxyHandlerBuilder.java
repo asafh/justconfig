@@ -92,4 +92,8 @@ public class ConfigurationProxyHandlerBuilder {
 			return new ConfigurationProxyHandlerBase<T>(readersSource, config, specs, loader);
 		}
 	}
+	
+	public<T> T buildProxy(Class<T> specs) {
+		return build(specs).createProxy();
+	}
 }
