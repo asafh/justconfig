@@ -10,7 +10,6 @@ This example showcases a simple usage, leveraging annotation interfaces' ability
 
 
 ```
-#!java
 public class Simple  {	
 	private static @interface ConfigSpecs {
 		int poolSize() default 16;
@@ -56,7 +55,6 @@ New Configuration sources can be easily added by implementing the ConfigurationS
 Configuration spec is your definition of what the configuration holds. You define one by defining an interface or an annotation like the following
 
 ```
-#!java
 public @interface ConfigSpecs {
 	int poolSize() default 16;
 	String threadGroupName();
@@ -81,7 +79,6 @@ This is where Value Reader Services come in to play, an implementation accepts c
 
 Look at EnumValueReaderService for a simple example:
 ```
-#!java
 public class EnumValueReaderService implements ValueReaderService {
 
 	/**
