@@ -38,29 +38,27 @@ Check out the examples!</p>
 
 <p>This example showcases a simple usage, leveraging annotation interfaces' ability to specify default values with method declaration</p>
 
-<pre><code>#!java
-public class Simple  {  
-    private static @interface ConfigSpecs {
-        int poolSize() default 16;
-        String threadGroupName() default "myexecs";
-    }
-    private static final ConfigSpecs CONFIG = ConfigurationProxyBuilder.newBuilder(new SystemPropertiesConfigurationSource())
-                                                .build(ConfigSpecs.class);
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Simple</span>  <span class="o">{</span>  
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nd">@interface</span> <span class="n">ConfigSpecs</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="nf">poolSize</span><span class="o">()</span> <span class="k">default</span> <span class="mi">16</span><span class="o">;</span>
+        <span class="n">String</span> <span class="nf">threadGroupName</span><span class="o">()</span> <span class="k">default</span> <span class="s">"myexecs"</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ConfigSpecs</span> <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigurationProxyHandlerBuilder</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">().</span>
+                                                <span class="n">configuration</span><span class="o">(</span><span class="k">new</span> <span class="n">SystemPropertiesConfigurationSource</span><span class="o">())</span>
+                                                <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">ConfigSpecs</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                                                <span class="o">.</span><span class="na">createProxy</span><span class="o">();</span>
 
 
-    public static void main( String[] args ) throws InstantiationException, IllegalAccessException{
-        System.setProperty("threadGroupName", "configuredValue");
-        assertEquals(16, CONFIG.poolSize());
-        assertEquals("configuredValue", CONFIG.threadGroupName());
-    }
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">InstantiationException</span><span class="o">,</span> <span class="n">IllegalAccessException</span><span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"threadGroupName"</span><span class="o">,</span> <span class="s">"configuredValue"</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">16</span><span class="o">,</span> <span class="n">CONFIG</span><span class="o">.</span><span class="na">poolSize</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"configuredValue"</span><span class="o">,</span> <span class="n">CONFIG</span><span class="o">.</span><span class="na">threadGroupName</span><span class="o">());</span>
+    <span class="o">}</span>
 
-    private static void assertEquals(Object one, Object two) {
-        if(one != two &amp;&amp; !one.equals(two)) {
-            throw new IllegalArgumentException(one+" != "+two);
-        }
-    }
-}
-</code></pre>
+<span class="o">}</span>
+
+
+</pre></div>
 
 <h2>More information</h2>
 
@@ -70,15 +68,7 @@ public class Simple  {
 <li>Configuration Sources</li>
 <li>Configuration Spec</li>
 <li>Value Reader Service</li>
-<li>Strategies
-
-<ol>
-<li>DefaultValueStrategy - Resolves a default value for a property accessor</li>
-<li>PropertyNameStrategy - Resolves the proprety name for a property accessor</li>
-<li>PropertyTypeStrategy - Resolves the property type for a property accessor</li>
-<li>ValueReaderResolverStrategy - Resolves the ValueReaderService for a type</li>
-</ol>
-</li>
+<li>Proxy Handler</li>
 </ul><h3>Configuration Sources</h3>
 
 <p>A Configuration source retrieves simple values (Strings or primitives) for a String configuration property name. A simpler subset of <a href="http://commons.apache.org/configuration/">Apache Configuration</a> API's <a href="http://commons.apache.org/configuration/apidocs/org/apache/commons/configuration/Configuration.html">Configuration</a> interface.<br>
@@ -90,26 +80,23 @@ Justconfig comes out of the box with these configuration sources:  </p>
 <li>java.util.Properties<br>
 </li>
 <li>Apache Configuration (optional dependency)</li>
-</ul><p>Delegation of configuration sources can be achieved with the ConfigurationSourceChain class.</p>
-
-<p>New Configuration sources can be easily added by implementing the ConfigurationSource interface or extending the ConfigurationSourceBase class which helps with String backed configuration sources.</p>
+</ul><p>New Configuration sources can be easily added by implementing the ConfigurationSource interface or extending the ConfigurationSourceBase class which helps with String backed configuration sources.</p>
 
 <h3>Configuration Spec</h3>
 
-<p>Configuration spec is your definition of what the configuration holds, defined by an interface or an annotation such as the following:</p>
+<p>Configuration spec is your definition of what the configuration holds. You define one by defining an interface or an annotation like the following</p>
 
-<pre><code>#!java
-public @interface ConfigSpecs {
-    int poolSize() default 16;
-    String threadGroupName();
-}
-public interface ConfigSpecs2 {
-    Boolean poolSize();
-    String threadGroupName();
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="nd">@interface</span> <span class="n">ConfigSpecs</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="nf">poolSize</span><span class="o">()</span> <span class="k">default</span> <span class="mi">16</span><span class="o">;</span>
+    <span class="n">String</span> <span class="nf">threadGroupName</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ConfigSpecs2</span> <span class="o">{</span>
+    <span class="n">Boolean</span> <span class="nf">poolSize</span><span class="o">();</span>
+    <span class="n">String</span> <span class="nf">threadGroupName</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
 
-<p>Justconfig will create a proxy instance of the interface for you to use, working just like how you think it will.  </p>
+<p>Justconfig will get you an instance of the interface, working just like how you think it will.  </p>
 
 <p>If you're wondering why pick or not pick annotations over interfaces, these are the key differences:  </p>
 
@@ -126,32 +113,31 @@ This is where Value Reader Services come in to play, an implementation accepts c
 
 <p>Look at EnumValueReaderService for a simple example:</p>
 
-<pre><code>#!java
-public class EnumValueReaderService implements ValueReaderService {
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EnumValueReaderService</span> <span class="kd">implements</span> <span class="n">ValueReaderService</span> <span class="o">{</span>
 
-    /**
-     * return true iff the type is an enum.
-     */
-    public boolean readable(Class&lt;?&gt; type) {
-        return Enum.class.isAssignableFrom(type);
-    }
+    <span class="cm">/**</span>
+<span class="cm">     * return true iff the type is an enum.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">readable</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Enum</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isAssignableFrom</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    /**
-     * Reads an enum constant using the enum's valueOf method
-     */
-    @SuppressWarnings({ "unchecked" })
-    public Enum readValue(ClassLoader loader, ConfigurationSource config,
-            String name, Class&lt;?&gt; type)
-            throws IllegalArgumentException {
-        String enumName = config.getString(name);
-        if(enumName == null) {
-            return null;
-        }
-        Class&lt;? extends Enum&gt; eClass = type.asSubclass(Enum.class);
-        return Enum.valueOf(eClass, enumName);
-    }
-}
-</code></pre>
+    <span class="cm">/**</span>
+<span class="cm">     * Reads an enum constant using the enum's valueOf method</span>
+<span class="cm">     */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">({</span> <span class="s">"unchecked"</span> <span class="o">})</span>
+    <span class="kd">public</span> <span class="n">Enum</span> <span class="nf">readValue</span><span class="o">(</span><span class="n">ClassLoader</span> <span class="n">loader</span><span class="o">,</span> <span class="n">ConfigurationSource</span> <span class="n">config</span><span class="o">,</span>
+            <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">type</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">IllegalArgumentException</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">enumName</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">enumName</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Enum</span><span class="o">&gt;</span> <span class="n">eClass</span> <span class="o">=</span> <span class="n">type</span><span class="o">.</span><span class="na">asSubclass</span><span class="o">(</span><span class="n">Enum</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">Enum</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">eClass</span><span class="o">,</span> <span class="n">enumName</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
 
 <p>Justconfig by default looks for ValueReaderServices using Java's <a href="http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>, allowing you to easily implement value readers for more types or plug in libraries that do.</p>
       </section>
