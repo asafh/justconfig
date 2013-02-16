@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import io.ous.TestHelper;
 import io.ous.justconfig.util.Primitives;
+import io.ous.justconfig.util.SimpleMock;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,8 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 @RunWith(Parameterized.class)
 public class ConfigurationSourceChainUnitTest {
@@ -36,6 +35,11 @@ public class ConfigurationSourceChainUnitTest {
 		
 		return ret;
 	}
+	private static class ConfigurationSourceMock extends SimpleMock<ConfigurationSource> {
+		public ConfigurationSourceMock() {
+			super(ConfigurationSource.class);
+		}
+	}
 	private ConfigurationSourceChain config;
 	private Random random;
 	private final ConfigurationSourceMock[] mocks;
@@ -44,36 +48,6 @@ public class ConfigurationSourceChainUnitTest {
 		mocks = new ConfigurationSourceMock[size];
 		this.type = type;
 	}
-	static class ConfigurationSourceMock {
-		final ConfigurationSource mock;
-		Answer<Object> answer;
-		
-		ConfigurationSourceMock() {
-			mock = mock(ConfigurationSource.class, new Answer<Object>() {
-				@Override
-				public Object answer(InvocationOnMock invocation)
-						throws Throwable {
-					return answer.answer(invocation);
-				}
-			});
-			always(null);
-		}
-		
-		public ConfigurationSourceMock always(final Object object) {
-			return answer(new Answer<Object>() {
-				@Override
-				public Object answer(InvocationOnMock invocation)
-						throws Throwable {
-					return object;
-				}
-			});
-		}
-
-		public ConfigurationSourceMock answer(Answer<Object> answer) {
-			this.answer = answer;
-			return this;
-		}
-	}
 	@Before
 	public void init() {
 		random = TestHelper.getRandom();
@@ -81,7 +55,7 @@ public class ConfigurationSourceChainUnitTest {
 		ConfigurationSource[] sources = new ConfigurationSource[mocks.length];
 		for(int i = 0 ; i < mocks.length; ++i) {
 			mocks[i] = new ConfigurationSourceMock();
-			sources[i] = mocks[i].mock;
+			sources[i] = mocks[i].getMock();
 		}
 		
 		config = new ConfigurationSourceChain(sources);
@@ -114,7 +88,7 @@ public class ConfigurationSourceChainUnitTest {
 		
 		int times = 1;
 		for(ConfigurationSourceMock mock : mocks) {
-			TestHelper.getBasicValue(verify(mock.mock,times(times)), type);
+			TestHelper.getBasicValue(verify(mock.getMock(),times(times)), type);
 			if(mock == randMock) { //hard equality ok, from here onwards no invocations should have occurred
 				times = 0;
 			}
@@ -122,7 +96,7 @@ public class ConfigurationSourceChainUnitTest {
 				if(Void.TYPE.equals(primitive) || type.equals(primitive)) { //For any other type except this one and Void 
 					continue;
 				}
-				TestHelper.getBasicValue(verify(mock.mock, never()), primitive); //should never be retreived
+				TestHelper.getBasicValue(verify(mock.getMock(), never()), primitive); //should never be retreived
 			}
 		}
 		
