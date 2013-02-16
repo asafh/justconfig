@@ -16,7 +16,7 @@ public class ConfigurationProxyBuilderUnitTest {
 	public interface Specs {
 		public Object getObject();
 	}
-	/*public int gettysburgVila();
+	/*public int gettysburgVila(); //TODO
 		public String istanbul();
 		public boolean isStuff();
 		public Map<?,?> custom();*/
@@ -43,5 +43,18 @@ public class ConfigurationProxyBuilderUnitTest {
 		
 		Specs ret = builder.valueReaderResolvers(services).build(Specs.class);
 		assertEquals(uniqueObject, ret.getObject());
+	}
+	
+	@Test
+	public void testNoCache() {
+		//TODO
+	}
+	@Test
+	public void testLazyCache() {
+		//TODO
+	}
+	@Test
+	public void testEagerCache() {
+		//TODO
 	}
 }

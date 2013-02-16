@@ -1,4 +1,4 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
 
 import java.util.ServiceLoader;
 

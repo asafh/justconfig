@@ -1,6 +1,8 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
 
 import static org.junit.Assert.assertEquals;
+
+import io.ous.justconfig.strategies.impl.MethodPropetyStrategy;
 
 import java.lang.reflect.Method;
 

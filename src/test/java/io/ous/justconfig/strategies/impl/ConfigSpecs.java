@@ -1,4 +1,4 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
 
 @interface ConfigSpecs {
 	public static final String DEF_STRING_VAL = "def";

@@ -1,15 +1,15 @@
 package io.ous.justconfig;
 
 import io.ous.justconfig.sources.ConfigurationSource;
-import io.ous.justconfig.strategies.AnnotationDefaultValueStrategy;
-import io.ous.justconfig.strategies.BeanMethodPropetyStrategy;
 import io.ous.justconfig.strategies.DefaultValueStrategy;
-import io.ous.justconfig.strategies.IterableValueReaderResolverStrategy;
-import io.ous.justconfig.strategies.MethodPropetyStrategy;
 import io.ous.justconfig.strategies.PropertyNameStrategy;
 import io.ous.justconfig.strategies.PropertyTypeStrategy;
-import io.ous.justconfig.strategies.ServiceLoaderValueReaderResolverStrategy;
 import io.ous.justconfig.strategies.ValueReaderResolverStrategy;
+import io.ous.justconfig.strategies.impl.AnnotationDefaultValueStrategy;
+import io.ous.justconfig.strategies.impl.BeanMethodPropetyStrategy;
+import io.ous.justconfig.strategies.impl.IterableValueReaderResolverStrategy;
+import io.ous.justconfig.strategies.impl.MethodPropetyStrategy;
+import io.ous.justconfig.strategies.impl.ServiceLoaderValueReaderResolverStrategy;
 import io.ous.justconfig.values.ValueReaderService;
 
 import java.lang.reflect.InvocationHandler;

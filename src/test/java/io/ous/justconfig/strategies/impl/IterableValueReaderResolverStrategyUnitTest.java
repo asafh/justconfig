@@ -1,4 +1,4 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.ous.justconfig.strategies.impl.IterableValueReaderResolverStrategy;
 import io.ous.justconfig.values.ValueReaderService;
 
 import org.junit.Assert;

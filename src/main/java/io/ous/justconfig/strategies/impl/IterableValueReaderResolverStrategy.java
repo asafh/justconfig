@@ -1,5 +1,6 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
 
+import io.ous.justconfig.strategies.ValueReaderResolverStrategy;
 import io.ous.justconfig.values.ValueReaderService;
 
 /**
@@ -18,13 +19,13 @@ public class IterableValueReaderResolverStrategy implements ValueReaderResolverS
 	 * Creates a new iterator for the given iterable and returns the first ValueReaderService returned by it that accepts the given type
 	 */
 	@Override
-	public ValueReaderService getValueReaderService(Class<?> forType) throws IllegalArgumentException {
+	public ValueReaderService getValueReaderService(Class<?> forType) {
 		for(ValueReaderService service : readers) {
 			if(service.readable(forType)) {
 				return service;
 			}
 		}
-		throw new IllegalArgumentException("Cannot find ValueReaderService that accepts "+forType);
+		return null;
 	}
 
 }

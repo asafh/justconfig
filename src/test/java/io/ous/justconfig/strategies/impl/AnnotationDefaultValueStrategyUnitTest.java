@@ -1,6 +1,7 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
 
 import static org.junit.Assert.assertEquals;
+import io.ous.justconfig.strategies.impl.AnnotationDefaultValueStrategy;
 
 import org.junit.Before;
 import org.junit.Test;

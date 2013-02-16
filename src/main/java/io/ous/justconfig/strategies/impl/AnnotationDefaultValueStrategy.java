@@ -1,4 +1,6 @@
-package io.ous.justconfig.strategies;
+package io.ous.justconfig.strategies.impl;
+
+import io.ous.justconfig.strategies.DefaultValueStrategy;
 
 import java.lang.reflect.Method;
 

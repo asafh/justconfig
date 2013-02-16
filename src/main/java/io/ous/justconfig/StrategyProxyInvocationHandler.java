@@ -49,6 +49,9 @@ class StrategyProxyInvocationHandler implements InvocationHandler {
 	 */
 	protected Object readValue(String name, Class<?> type) {
 		ValueReaderService reader = valueReaderResolver.getValueReaderService(type);
+		if(reader == null) {
+			throw new IllegalArgumentException("Cannot find ValueReaderService that accepts "+type);
+		}
 		return reader.readValue(loader, config, name, type);
 	}
 }
