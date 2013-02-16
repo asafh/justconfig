@@ -3,7 +3,7 @@ package io.ous.justconfig.sources;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import io.ous.TestHelper;
+import io.ous.justconfig.TestHelper;
 import io.ous.justconfig.util.Primitives;
 import io.ous.justconfig.util.SimpleMock;
 

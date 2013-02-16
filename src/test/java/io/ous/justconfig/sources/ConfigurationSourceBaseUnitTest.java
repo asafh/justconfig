@@ -2,7 +2,7 @@ package io.ous.justconfig.sources;
 
 import static org.junit.Assert.*;
 
-import io.ous.TestHelper;
+import io.ous.justconfig.TestHelper;
 
 import java.util.Random;
 

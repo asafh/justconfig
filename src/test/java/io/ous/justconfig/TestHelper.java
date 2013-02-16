@@ -1,4 +1,4 @@
-package io.ous;
+package io.ous.justconfig;
 
 import io.ous.justconfig.sources.ConfigurationSource;
 import io.ous.justconfig.util.Primitives;

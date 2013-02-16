@@ -1,17 +1,13 @@
-package io.ous.justconfig.proxy;
+package io.ous.justconfig;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
-
-import io.ous.justconfig.ConfigurationProxyHandlerBuilder;
+import static org.mockito.Mockito.when;
 import io.ous.justconfig.sources.ConfigurationSource;
 import io.ous.justconfig.util.SimpleMock;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 public class AnnotationSpecTest {	
 	private static final String DEF_STRING_VAL = "def";
@@ -34,7 +30,7 @@ public class AnnotationSpecTest {
 		when(configSource.getString("sysPropStr")).thenReturn(VAL_SYS_PROP_STR);
 		when(configSource.getInteger("sysPropInt")).thenReturn(VAL_SYS_PROP_INT);
 		
-		config = ConfigurationProxyHandlerBuilder.newBuilder().configuration(configSource).buildProxy(ConfigSpecs.class);
+		config = ConfigurationProxyBuilder.newBuilder(configSource).build(ConfigSpecs.class);
 	}
 	
 	@Test

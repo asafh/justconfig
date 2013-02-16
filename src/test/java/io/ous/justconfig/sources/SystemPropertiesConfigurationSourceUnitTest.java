@@ -1,6 +1,6 @@
 package io.ous.justconfig.sources;
 
-import io.ous.TestHelper;
+import io.ous.justconfig.TestHelper;
 
 import java.math.BigInteger;
 import java.util.Map;
