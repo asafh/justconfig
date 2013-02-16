@@ -65,4 +65,9 @@ public class ConfigurationProxyHandlerBuilderUnitTest {
 													.build(Specs.class);
 		assertEquals("object", ret.getPropertyName(Specs.class.getMethod("getObject")));
 	}
+	@Test
+	public void testNoBeanNames() throws SecurityException, NoSuchMethodException {
+		ConfigurationProxyHandler<Specs> ret = builder.build(Specs.class);
+		assertEquals("getObject", ret.getPropertyName(Specs.class.getMethod("getObject")));
+	}
 }

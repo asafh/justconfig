@@ -56,4 +56,8 @@ public class ConfigurationProxyWrapper<T> extends AbstractConfigurationProxyHand
 	public ClassLoader getClassLoader() {
 		return wrapped.getClassLoader();
 	}
+	@Override
+	public T createProxy() {
+		return wrapped.createProxy();
+	}
 }
