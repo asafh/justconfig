@@ -31,8 +31,13 @@
         <h1>The Justconfig library</h1>
 
 <p>The Justconfig library provides easy access to configuration properties. By simply specifying an interface describing your configuration values you can access those values without a hassle, independent of their source.<br>
-Justconfig has no dependencies.
-Check out the examples!</p>
+Justconfig has no dependencies.</p>
+
+<h1>Why would I use it?</h1>
+
+<p>If you want to avoid parsing and navigating various configuration sources and instead
+have a slick, nifty, object which lets you access your configuration with compile time type safety.<br>
+Take a look at a sample!</p>
 
 <h2>Simple Example</h2>
 
@@ -43,10 +48,8 @@ Check out the examples!</p>
         <span class="kt">int</span> <span class="nf">poolSize</span><span class="o">()</span> <span class="k">default</span> <span class="mi">16</span><span class="o">;</span>
         <span class="n">String</span> <span class="nf">threadGroupName</span><span class="o">()</span> <span class="k">default</span> <span class="s">"myexecs"</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ConfigSpecs</span> <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigurationProxyHandlerBuilder</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">().</span>
-                                                <span class="n">configuration</span><span class="o">(</span><span class="k">new</span> <span class="n">SystemPropertiesConfigurationSource</span><span class="o">())</span>
-                                                <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">ConfigSpecs</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                                                <span class="o">.</span><span class="na">createProxy</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ConfigSpecs</span> <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigurationProxyBuilder</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">(</span><span class="k">new</span> <span class="n">SystemPropertiesConfigurationSource</span><span class="o">())</span>
+                                                <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">ConfigSpecs</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">InstantiationException</span><span class="o">,</span> <span class="n">IllegalAccessException</span><span class="o">{</span>
@@ -67,8 +70,8 @@ Check out the examples!</p>
 <ul>
 <li>Configuration Sources</li>
 <li>Configuration Spec</li>
+<li>Proxy objects</li>
 <li>Value Reader Service</li>
-<li>Proxy Handler</li>
 </ul><h3>Configuration Sources</h3>
 
 <p>A Configuration source retrieves simple values (Strings or primitives) for a String configuration property name. A simpler subset of <a href="http://commons.apache.org/configuration/">Apache Configuration</a> API's <a href="http://commons.apache.org/configuration/apidocs/org/apache/commons/configuration/Configuration.html">Configuration</a> interface.<br>
@@ -106,7 +109,12 @@ Justconfig comes out of the box with these configuration sources:  </p>
 <li>Annotations' methods' return types are limited to Strings, Enums, Classes and (not boxed) primitives. This also means all primitive values must either be explicitly set (in the configuration source) or a default value must be given (In the Configuration Spec) or a NullPointerException will be thrown on access to indicate the missing value<br>
 </li>
 <li>Annotaions unlike interface can't extends other annotations/interfaces.</li>
-</ul><h3>Value Reader Services</h3>
+</ul><h3>Proxy Objects</h3>
+
+<p>These are the core component you will interactive with, built using a ConfigurationProxyBuilder are an implementation
+of a given Configuration Spec backed by a Configuration Source</p>
+
+<h3>Value Reader Services</h3>
 
 <p>While the return types for methods in annotations are from a constant set, interfaces can have other return values.<br>
 This is where Value Reader Services come in to play, an implementation accepts certain types that it can obtain from a configuration, and does so when such a value is requested.</p>
