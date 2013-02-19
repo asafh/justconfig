@@ -2,7 +2,12 @@
 
 The Justconfig library provides easy access to configuration properties. By simply specifying an interface describing your configuration values you can access those values without a hassle, independent of their source.  
 Justconfig has no dependencies.
-Check out the examples!
+
+
+#Why would I use it?
+If you want to avoid parsing and navigating various configuration sources and instead
+have a slick, nifty, object which lets you access your configuration with compile time type safety.  
+Take a look at a sample!
 
 
 ## Simple Example
@@ -15,10 +20,8 @@ public class Simple  {
 		int poolSize() default 16;
 		String threadGroupName() default "myexecs";
 	}
-	private static final ConfigSpecs CONFIG = ConfigurationProxyHandlerBuilder.newBuilder().
-												configuration(new SystemPropertiesConfigurationSource())
-												.build(ConfigSpecs.class)
-												.createProxy();
+	private static final ConfigSpecs CONFIG = ConfigurationProxyBuilder.newBuilder(new SystemPropertiesConfigurationSource())
+												.build(ConfigSpecs.class);
 	
 	
     public static void main( String[] args ) throws InstantiationException, IllegalAccessException{
@@ -37,8 +40,9 @@ There are a few, very simple, core concepts in Justconfig:
 
 * Configuration Sources
 * Configuration Spec
+* Proxy objects
 * Value Reader Service
-* Proxy Handler
+
 
 ### Configuration Sources
 A Configuration source retrieves simple values (Strings or primitives) for a String configuration property name. A simpler subset of [Apache Configuration](http://commons.apache.org/configuration/) API's [Configuration](http://commons.apache.org/configuration/apidocs/org/apache/commons/configuration/Configuration.html) interface.  
@@ -72,6 +76,9 @@ If you're wondering why pick or not pick annotations over interfaces, these are 
 * Annotations' methods' return types are limited to Strings, Enums, Classes and (not boxed) primitives. This also means all primitive values must either be explicitly set (in the configuration source) or a default value must be given (In the Configuration Spec) or a NullPointerException will be thrown on access to indicate the missing value  
 * Annotaions unlike interface can't extends other annotations/interfaces.
 
+### Proxy Objects
+These are the core component you will interactive with, built using a ConfigurationProxyBuilder are an implementation
+of a given Configuration Spec backed by a Configuration Source
 
 ### Value Reader Services
 While the return types for methods in annotations are from a constant set, interfaces can have other return values.  
