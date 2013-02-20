@@ -17,7 +17,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * This class is used to configure and create a new ConfigurationProxyHandler
+ * This class is used to configure and create a new ConfigurationProxyHandler. <br/>
+ * A ConfigurationProxyBuilder instance is not thread safe.
  * @author Asafh
  *
  */
