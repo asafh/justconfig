@@ -6,7 +6,7 @@ Justconfig has no dependencies.
 
 #Why would I use it?
 If you want to avoid parsing and navigating various configuration sources and instead
-have a slick, nifty, object which lets you access your configuration with compile time type safety.  
+have a slick, nifty, object which lets you access your configuration, returning values with the compile time type you expect.  
 Take a look at a sample!
 
 
