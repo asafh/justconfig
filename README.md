@@ -6,7 +6,7 @@ Justconfig has no dependencies.
 
 #Why would I use it?
 If you want to avoid parsing and navigating various configuration sources and instead
-have a slick, nifty, object which lets you access your configuration with compile time type safety.  
+have a slick, nifty, object which lets you access your configuration, returning values with the compile time type you expect.  
 Take a look at a sample!
 
 
@@ -45,7 +45,11 @@ There are a few, very simple, core concepts in Justconfig:
 
 
 ### Configuration Sources
-A Configuration source retrieves simple values (Strings or primitives) for a String configuration property name. A simpler subset of [Apache Configuration](http://commons.apache.org/configuration/) API's [Configuration](http://commons.apache.org/configuration/apidocs/org/apache/commons/configuration/Configuration.html) interface.  
+A Configuration source retrieves simple (Strings or primitives) values (configuration raw value) for keys
+(configuration property name). This can be viewed as a simple subset of
+[Apache Configuration](http://commons.apache.org/configuration/)'s
+[Configuration](http://commons.apache.org/configuration/apidocs/org/apache/commons/configuration/Configuration.html) interface.  
+
 Justconfig comes out of the box with these configuration sources:  
 
 * System Properties  
@@ -70,7 +74,7 @@ public interface ConfigSpecs2 {
 ```
 Justconfig will get you an instance of the interface, working just like how you think it will.  
 
-If you're wondering why pick or not pick annotations over interfaces, these are the key differences:  
+If you're wondering when to pick annotations over interfaces or the other way around, these are the key differences:  
 
 * Annotations let you specify default values in an convenient way  
 * Annotations' methods' return types are limited to Strings, Enums, Classes and (not boxed) primitives. This also means all primitive values must either be explicitly set (in the configuration source) or a default value must be given (In the Configuration Spec) or a NullPointerException will be thrown on access to indicate the missing value  
@@ -82,7 +86,9 @@ of a given Configuration Spec backed by a Configuration Source
 
 ### Value Reader Services
 While the return types for methods in annotations are from a constant set, interfaces can have other return values.  
-This is where Value Reader Services come in to play, an implementation accepts certain types that it can obtain from a configuration, and does so when such a value is requested.
+This is where Value Reader Services come in to play,
+an implementation of a ValueReaderService accepts certain types that it can obtain from a configuration,
+and obtain those values when requested.
 
 Look at EnumValueReaderService for a simple example:
 ```java
@@ -111,4 +117,8 @@ public class EnumValueReaderService implements ValueReaderService {
 	}
 }
 ```
-Justconfig by default looks for ValueReaderServices using Java's [ServiceLoader](http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html), allowing you to easily implement value readers for more types or plug in libraries that do.
+Justconfig by default looks for ValueReaderServices using
+Java's [ServiceLoader](http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html),
+allowing you to easily implement value readers for more types or plug in libraries that do.  
+When building a proxy (with ConfigurationProxyBuilder), one can override the way Justconfig retreives
+a ValueReaderService for a type by supplying a ValueReaderResolverStrategy instance to the valueReaderResolverStrategy method.
