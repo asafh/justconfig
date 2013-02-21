@@ -10,9 +10,10 @@ public class AnnotationDefaultValueStrategy implements DefaultValueStrategy {
 	 * keyword will be returned if exists. <br/>
 	 * Otherwise, (methods in non-annotation interfaces and for annotation methods with no default) null will be returned <br/>
 	 */
+	@SuppressWarnings("unchecked") //we can't use propertyType.cast for primitives
 	@Override
-	public Object getDefaultValue(Method method) {
-		return method.getDefaultValue();
+	public<T> T getDefaultValue(Method method, Class<T> propertyType) {
+		return (T) method.getDefaultValue();
 	}
 
 }

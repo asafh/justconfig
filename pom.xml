@@ -38,6 +38,7 @@
   </developers>
   
   <dependencies>
+  <!-- Test dependencies -->
 	<dependency>
 	   <groupId>junit</groupId>
 	   <artifactId>junit</artifactId>
@@ -56,6 +57,7 @@
 	    <version>13.0</version>
 	    <scope>test</scope>
 	</dependency>
+	<!-- Optional dependencies -->
 	<dependency> <!-- This dependency is optional and is used in ApacheCommonsConfigurationSource when a user instantiates such an object (must be explicitly defined in using project)-->
 	   <groupId>commons-configuration</groupId>
 	   <artifactId>commons-configuration</artifactId>

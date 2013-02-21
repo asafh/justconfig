@@ -27,7 +27,7 @@ public class IterableValueReaderResolverStrategyUnitTest {
 		readers.add(notAccepting);
 		readers.add(accepting);
 		IterableValueReaderResolverStrategy strategy = new IterableValueReaderResolverStrategy(readers);
-		ValueReaderService service = strategy.getValueReaderService(String.class);
+		ValueReaderService service = strategy.getValueReaderService(null, String.class);
 		
 		Assert.assertEquals(accepting, service);
 		

@@ -1,12 +1,15 @@
 package io.ous.justconfig;
 
 import io.ous.justconfig.sources.ConfigurationSource;
+import io.ous.justconfig.strategies.CompleteStrategy;
 import io.ous.justconfig.strategies.DefaultValueStrategy;
 import io.ous.justconfig.strategies.PropertyNameStrategy;
 import io.ous.justconfig.strategies.PropertyTypeStrategy;
 import io.ous.justconfig.strategies.ValueReaderResolverStrategy;
 import io.ous.justconfig.strategies.impl.AnnotationDefaultValueStrategy;
+import io.ous.justconfig.strategies.impl.AnnotatedAccessorStrategy;
 import io.ous.justconfig.strategies.impl.BeanMethodPropetyStrategy;
+import io.ous.justconfig.strategies.impl.ComposedCompleteStrategy;
 import io.ous.justconfig.strategies.impl.IterableValueReaderResolverStrategy;
 import io.ous.justconfig.strategies.impl.MethodPropetyStrategy;
 import io.ous.justconfig.strategies.impl.ServiceLoaderValueReaderResolverStrategy;
@@ -30,6 +33,7 @@ public class ConfigurationProxyBuilder {
 	private ConfigurationSource config;
 	private ClassLoader loader;
 	private CacheMode cacheMode;
+	private boolean readAnnotations;
 	public static enum CacheMode {
 		/**
 		 * Every call to a configuration property accessor will read the values from the Configuration Source
@@ -50,6 +54,7 @@ public class ConfigurationProxyBuilder {
 		this.config = config;
 		classLoader(loader);
 		cached(CacheMode.Lazy);
+		readAnnotations = false;
 	}
 	
 	/**
@@ -115,6 +120,12 @@ public class ConfigurationProxyBuilder {
 	public ConfigurationProxyBuilder beanNames() {
 		return propertyNameStrategy(new BeanMethodPropetyStrategy());
 	}
+	
+	public ConfigurationProxyBuilder readAnnotations() {
+		readAnnotations = true;
+		return this;
+	}
+	
 	public ConfigurationProxyBuilder propertyNameStrategy(PropertyNameStrategy strategy) {
 		this.propertyNameStrategy = strategy;
 		return this;
@@ -175,14 +186,15 @@ public class ConfigurationProxyBuilder {
 			valueReaderResolver = new ServiceLoaderValueReaderResolverStrategy(loader);
 		}
 		
+		CompleteStrategy strategy = new ComposedCompleteStrategy(propertyNameStrategy,
+																propertyTypeStrategy,
+																defaultValueStrategy,
+																valueReaderResolver); 
+		if(readAnnotations) {
+			strategy = new AnnotatedAccessorStrategy(strategy);
+		}
 		
-		InvocationHandler handler = new StrategyProxyInvocationHandler(
-						config,
-						loader,
-						propertyNameStrategy,
-						propertyTypeStrategy,
-						defaultValueStrategy,
-						valueReaderResolver);
+		InvocationHandler handler = new StrategyProxyInvocationHandler(config, loader, strategy);
 		
 		if(cacheMode != CacheMode.None) {
 			handler = new CachedInvocationHandler(handler);

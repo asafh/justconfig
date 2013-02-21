@@ -16,7 +16,7 @@ public class BasicValueReaderService implements ValueReaderService {
 	}
 
 	public Object readValue(ClassLoader loader,
-			ConfigurationSource config, String name, Class<?> type) {
+			ConfigurationSource config, String name, Class<?> type) { //TODO: duplicate code in TestHelper
 		if(String.class.equals(type)) {
 			return config.getString(name);
 		}

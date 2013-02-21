@@ -1,6 +1,9 @@
 package io.ous.justconfig.strategies.impl;
 
 import static org.junit.Assert.assertEquals;
+
+import java.lang.reflect.Method;
+
 import io.ous.justconfig.strategies.impl.AnnotationDefaultValueStrategy;
 
 import org.junit.Before;
@@ -13,7 +16,8 @@ public class AnnotationDefaultValueStrategyUnitTest {
 		strategy = new AnnotationDefaultValueStrategy();
 	}
 	private void testDefault(String methodName, Object expectedValue) throws SecurityException, NoSuchMethodException {
-		Object value = strategy.getDefaultValue(ConfigSpecs.class.getMethod(methodName));
+		Method def = ConfigSpecs.class.getMethod(methodName);
+		Object value = strategy.getDefaultValue(def, def.getReturnType());
 		assertEquals(expectedValue, value);
 	}
 
