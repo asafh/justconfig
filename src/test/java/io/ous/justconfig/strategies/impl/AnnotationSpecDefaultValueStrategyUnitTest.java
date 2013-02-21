@@ -4,16 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 
-import io.ous.justconfig.strategies.impl.AnnotationDefaultValueStrategy;
+import io.ous.justconfig.strategies.impl.AnnotationSpecDefaultValueStrategy;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class AnnotationDefaultValueStrategyUnitTest {
-	AnnotationDefaultValueStrategy strategy;
+public class AnnotationSpecDefaultValueStrategyUnitTest {
+	AnnotationSpecDefaultValueStrategy strategy;
 	@Before
 	public void init() {
-		strategy = new AnnotationDefaultValueStrategy();
+		strategy = new AnnotationSpecDefaultValueStrategy();
 	}
 	private void testDefault(String methodName, Object expectedValue) throws SecurityException, NoSuchMethodException {
 		Method def = ConfigSpecs.class.getMethod(methodName);

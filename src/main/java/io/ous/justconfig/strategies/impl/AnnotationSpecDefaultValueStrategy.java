@@ -4,7 +4,7 @@ import io.ous.justconfig.strategies.DefaultValueStrategy;
 
 import java.lang.reflect.Method;
 
-public class AnnotationDefaultValueStrategy implements DefaultValueStrategy {
+public class AnnotationSpecDefaultValueStrategy implements DefaultValueStrategy {
 	/**
 	 * If the given method's defining interface is an annotation, the value specified using the annotation's <code>default</code>
 	 * keyword will be returned if exists. <br/>

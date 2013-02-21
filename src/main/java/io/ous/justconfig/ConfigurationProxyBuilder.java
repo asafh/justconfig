@@ -7,7 +7,7 @@ import io.ous.justconfig.strategies.PropertyNameStrategy;
 import io.ous.justconfig.strategies.PropertyTypeStrategy;
 import io.ous.justconfig.strategies.ValueReaderResolverStrategy;
 import io.ous.justconfig.strategies.impl.AnnotatedAccessorStrategy;
-import io.ous.justconfig.strategies.impl.AnnotationDefaultValueStrategy;
+import io.ous.justconfig.strategies.impl.AnnotationSpecDefaultValueStrategy;
 import io.ous.justconfig.strategies.impl.BeanMethodPropetyStrategy;
 import io.ous.justconfig.strategies.impl.ComposedCompleteStrategy;
 import io.ous.justconfig.strategies.impl.IterableValueReaderResolverStrategy;
@@ -180,7 +180,7 @@ public class ConfigurationProxyBuilder {
 			propertyTypeStrategy = MethodPropetyStrategy.METHOD_PROPERTY_STRATEGY_INSTANCE;
 		}
 		if(defaultValueStrategy == null) {
-			defaultValueStrategy = new AnnotationDefaultValueStrategy();
+			defaultValueStrategy = new AnnotationSpecDefaultValueStrategy();
 		}
 		if(valueReaderResolver == null) {
 			valueReaderResolver = new ServiceLoaderValueReaderResolverStrategy(loader);
