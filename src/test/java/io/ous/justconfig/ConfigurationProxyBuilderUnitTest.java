@@ -16,10 +16,6 @@ public class ConfigurationProxyBuilderUnitTest {
 	public interface Specs {
 		public Object getObject();
 	}
-	/*public int gettysburgVila(); //TODO
-		public String istanbul();
-		public boolean isStuff();
-		public Map<?,?> custom();*/
 
 	private ConfigurationProxyBuilder builder;
 	private ConfigurationSource config;

@@ -9,25 +9,10 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PropertyAccessor {
-	/**
-	 * The property name
-	 * @return
-	 */
-	String name();
-	/**
-	 * Property Type, according to which a ValueReaderService might be retrieved
-	 * @return
-	 */
-	Class<?> type();
+public @interface PropertyValueReaderService {
 	/**
 	 * Type of the ValueReaderService to use
 	 * @return
 	 */
 	Class<? extends ValueReaderService> reader();
-	/**
-	 * Stringed form of the default value, will be parsed according to the property type (must be a primitive or String)
-	 * @return
-	 */
-	String defaultValue();
 }

@@ -2,7 +2,10 @@ package io.ous.justconfig.strategies.impl;
 
 import java.lang.reflect.Method;
 
-import io.ous.justconfig.annotation.PropertyAccessor;
+import io.ous.justconfig.annotation.PropertyDefaultValue;
+import io.ous.justconfig.annotation.PropertyName;
+import io.ous.justconfig.annotation.PropertyType;
+import io.ous.justconfig.annotation.PropertyValueReaderService;
 import io.ous.justconfig.strategies.CompleteStrategy;
 import io.ous.justconfig.util.TypeUtils;
 import io.ous.justconfig.values.ValueReaderService;
@@ -13,20 +16,14 @@ public class AnnotatedAccessorStrategy implements CompleteStrategy {
 	public AnnotatedAccessorStrategy(CompleteStrategy delegate) {
 		this.delegate = delegate;
 	}
-	private PropertyAccessor getAnnotation(Method specMethod) {
-		return specMethod.getAnnotation(PropertyAccessor.class);
-	}
 	
 	@Override
 	public ValueReaderService getValueReaderService(Method specMethod, Class<?> forType) {
-		PropertyAccessor accessor = getAnnotation(specMethod);
+		PropertyValueReaderService accessor = specMethod.getAnnotation(PropertyValueReaderService.class);
 		if(accessor == null) {
 			return delegate.getValueReaderService(specMethod, forType);
 		}
-		Class<? extends ValueReaderService> readerClass = accessor.reader();
-		if(readerClass == null) {
-			return delegate.getValueReaderService(specMethod, forType);
-		}
+		Class<? extends ValueReaderService> readerClass = accessor.reader(); //never null
 		try {
 			return readerClass.newInstance(); //TODO: cache? reader registery? what?
 		} catch (Exception e) {
@@ -38,32 +35,24 @@ public class AnnotatedAccessorStrategy implements CompleteStrategy {
 	
 	@Override
 	public Class<?> getPropertyType(Method specMethod) {
-		PropertyAccessor accessor = getAnnotation(specMethod);
-		if(accessor == null) {
-			return delegate.getPropertyType(specMethod);
-		}
-		Class<?> returnType = accessor.type();
-		return returnType == null ? delegate.getPropertyType(specMethod) : returnType;
+		PropertyType accessor = specMethod.getAnnotation(PropertyType.class);
+		return accessor == null ? delegate.getPropertyType(specMethod) : accessor.type();
 	}
 
 	@Override
 	public String getPropertyName(Method specMethod) {
-		PropertyAccessor accessor = getAnnotation(specMethod);
-		if(accessor == null) {
-			return delegate.getPropertyName(specMethod);
-		}
-		String propName = accessor.name();
-		return propName == null ? delegate.getPropertyName(specMethod) : propName;
+		PropertyName accessor = specMethod.getAnnotation(PropertyName.class);
+		return accessor == null ?  delegate.getPropertyName(specMethod) : accessor.name();
 	}
 
 	@Override
-	public<T> T getDefaultValue(Method method, Class<T> propertyType) {
-		PropertyAccessor accessor = getAnnotation(method);
+	public<T> T getDefaultValue(Method specMethod, Class<T> propertyType) {
+		PropertyDefaultValue accessor = specMethod.getAnnotation(PropertyDefaultValue.class);
 		if(accessor == null) {
-			return delegate.getDefaultValue(method, propertyType);
+			return delegate.getDefaultValue(specMethod, propertyType);
 		}
 		String def = accessor.defaultValue();
-		return def == null ? delegate.getDefaultValue(method, propertyType) : TypeUtils.getValue(def, propertyType);
+		return TypeUtils.getValue(def, propertyType);
 	}
 
 }
