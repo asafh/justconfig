@@ -3,6 +3,7 @@ package io.ous.justconfig.strategies.impl;
 import static org.junit.Assert.assertEquals;
 
 import io.ous.justconfig.strategies.impl.BeanMethodPropetyStrategy;
+import io.ous.justconfig.testutil.ConfigSpecs;
 
 import java.lang.reflect.Method;
 

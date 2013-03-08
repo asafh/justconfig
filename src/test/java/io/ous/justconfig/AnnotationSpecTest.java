@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 import io.ous.justconfig.sources.ConfigurationSource;
-import io.ous.justconfig.util.SimpleMock;
+import io.ous.justconfig.testutil.SimpleMock;
 
 import org.junit.Before;
 import org.junit.Test;

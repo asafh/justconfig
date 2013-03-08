@@ -14,5 +14,5 @@ public @interface PropertyValueReaderService {
 	 * Type of the ValueReaderService to use
 	 * @return
 	 */
-	Class<? extends ValueReaderService> reader();
+	Class<? extends ValueReaderService> value();
 }

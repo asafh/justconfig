@@ -2,8 +2,8 @@ package io.ous.justconfig.values;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import io.ous.justconfig.TestHelper;
 import io.ous.justconfig.sources.ConfigurationSource;
+import io.ous.justconfig.testutil.TestHelper;
 import io.ous.justconfig.util.Primitives;
 
 import java.util.ArrayList;

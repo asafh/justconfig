@@ -1,74 +1,73 @@
 package io.ous.justconfig.sources;
 
-import java.math.BigInteger;
-
+import io.ous.justconfig.util.TypeUtils;
 
 public abstract class ConfigurationSourceBase implements ConfigurationSource {
 
 	public abstract String getString(String name);
 
 	/**
-	 * Reads the property like a String and parses it as a Hexadecimal using DatatypeConverter.parseHexBinary.
+	 * {@link TypeUtils#getByte(String)}
 	 */
 	public Byte getByte(String name) {
 		String val = getString(name);
-		return val == null ? null : new BigInteger(val, 16).byteValue();// Byte.parseByte(val, 16);
+		return TypeUtils.getByte(val);
 	}
 
 	/**
-	 * Reads the property like a string and if it's not null, parses it using Short.valueOf
+	 * {@link TypeUtils#getShort(String)}
 	 */
 	public Short getShort(String name) {
 		String val = getString(name);
-		return val == null ? null : Short.valueOf(val);
+		return TypeUtils.getShort(val);
 	}
 	
 	/**
-	 * Reads the property like a string and if it's not null, parses it using Long.valueOf
+	 * {@link TypeUtils#getLong(String)}
 	 */
 	public Long getLong(String name) {
 		String val = getString(name);
-		return val == null ? null : Long.valueOf(val);
+		return TypeUtils.getLong(val);
 	}
 
 	/**
-	 * Reads the property like a string and if it's not null, parses it using Double.valueOf
+	 * {@link TypeUtils#getDouble(String)}
 	 */
 	public Double getDouble(String name) {
 		String val = getString(name);
-		return val == null ? null : Double.valueOf(val);
+		return TypeUtils.getDouble(val);
 	}
 
 	/**
-	 * Reads the property like a string and if it's not null, parses it using Integer.valueOf
+	 * {@link TypeUtils#getInteger(String)}
 	 */
 	public Integer getInteger(String name) {
 		String val = getString(name);
-		return val == null ? null : Integer.valueOf(val);
+		return TypeUtils.getInteger(val);
 	}
 
 	/**
-	 * Reads the property like a string and if it's not null, parses it using Float.valueOf
+	 * {@link TypeUtils#getFloat(String)}
 	 */
 	public Float getFloat(String name) {
 		String val = getString(name);
-		return val == null ? null : Float.valueOf(val);
+		return TypeUtils.getFloat(val);
 	}
 
 	/**
-	 * Reads the property like a string and if it's not null, parses it using Boolean.valueOf
+	 * {@link TypeUtils#getBoolean(String)}
 	 */
 	public Boolean getBoolean(String name) {
 		String val = getString(name);
-		return val == null ? null : Boolean.valueOf(val);
+		return TypeUtils.getBoolean(val);
 	}
 
 	/**
-	 * Reads the property like a string and if it's not null, returns the first character
+	 * {@link TypeUtils#getCharacter(String)}
 	 */
 	public Character getCharacter(String name) {
 		String val = getString(name);
-		return val == null || val.length() == 0 ? null : val.charAt(0);
+		return TypeUtils.getCharacter(val);
 	}
 
 }

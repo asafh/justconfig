@@ -12,6 +12,6 @@ public @interface PropertyType {
 	 * Property Type, according to which a ValueReaderService might be retrieved
 	 * @return
 	 */
-	Class<?> type();
+	Class<?> value();
 	
 }

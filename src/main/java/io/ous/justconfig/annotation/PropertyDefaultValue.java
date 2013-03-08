@@ -12,5 +12,5 @@ public @interface PropertyDefaultValue {
 	 * Stringed form of the default value, will be parsed according to the property type (must be a primitive or String)
 	 * @return
 	 */
-	String defaultValue();
+	String value();
 }

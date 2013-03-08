@@ -3,9 +3,9 @@ package io.ous.justconfig.sources;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import io.ous.justconfig.TestHelper;
+import io.ous.justconfig.testutil.SimpleMock;
+import io.ous.justconfig.testutil.TestHelper;
 import io.ous.justconfig.util.Primitives;
-import io.ous.justconfig.util.SimpleMock;
 
 import java.util.ArrayList;
 import java.util.Collection;

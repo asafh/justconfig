@@ -1,6 +1,6 @@
-package io.ous.justconfig.strategies.impl;
+package io.ous.justconfig.testutil;
 
-@interface ConfigSpecs {
+public @interface ConfigSpecs {
 	public static final String DEF_STRING_VAL = "def";
 	public static final int DEF_INT_VAL = 332;
 	int primError();

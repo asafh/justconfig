@@ -12,5 +12,5 @@ public @interface PropertyName {
 	 * The property name
 	 * @return
 	 */
-	String name();
+	String value();
 }

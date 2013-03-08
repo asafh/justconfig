@@ -23,11 +23,11 @@ public class AnnotatedAccessorStrategy implements CompleteStrategy {
 		if(accessor == null) {
 			return delegate.getValueReaderService(specMethod, forType);
 		}
-		Class<? extends ValueReaderService> readerClass = accessor.reader(); //never null
+		Class<? extends ValueReaderService> readerClass = accessor.value(); //never null
 		try {
-			return readerClass.newInstance(); //TODO: cache? reader registery? what?
+			return readerClass.newInstance(); //TODO: cache? reader registry? what?
 		} catch (Exception e) {
-			//TODO: ok, delegate to delegate, but silent ignore? really?
+			//TODO: ok, delegate to delegate. But silent ignore? really?
 			return delegate.getValueReaderService(specMethod, forType);
 		}
 	}
@@ -36,13 +36,13 @@ public class AnnotatedAccessorStrategy implements CompleteStrategy {
 	@Override
 	public Class<?> getPropertyType(Method specMethod) {
 		PropertyType accessor = specMethod.getAnnotation(PropertyType.class);
-		return accessor == null ? delegate.getPropertyType(specMethod) : accessor.type();
+		return accessor == null ? delegate.getPropertyType(specMethod) : accessor.value();
 	}
 
 	@Override
 	public String getPropertyName(Method specMethod) {
 		PropertyName accessor = specMethod.getAnnotation(PropertyName.class);
-		return accessor == null ?  delegate.getPropertyName(specMethod) : accessor.name();
+		return accessor == null ?  delegate.getPropertyName(specMethod) : accessor.value();
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class AnnotatedAccessorStrategy implements CompleteStrategy {
 		if(accessor == null) {
 			return delegate.getDefaultValue(specMethod, propertyType);
 		}
-		String def = accessor.defaultValue();
+		String def = accessor.value();
 		return TypeUtils.getValue(def, propertyType);
 	}
 

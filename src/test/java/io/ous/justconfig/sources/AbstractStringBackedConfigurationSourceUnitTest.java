@@ -1,6 +1,6 @@
 package io.ous.justconfig.sources;
 
-import io.ous.justconfig.TestHelper;
+import io.ous.justconfig.testutil.TestHelper;
 
 import java.util.HashMap;
 import java.util.Map;

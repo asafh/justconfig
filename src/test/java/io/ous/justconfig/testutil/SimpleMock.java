@@ -1,4 +1,4 @@
-package io.ous.justconfig.util;
+package io.ous.justconfig.testutil;
 
 import static org.mockito.Mockito.mock;
 
